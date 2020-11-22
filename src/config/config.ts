@@ -1,14 +1,14 @@
-import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
+// import nodemailer from 'nodemailer'
+// import dotenv from 'dotenv'
 
-dotenv.config()
+// dotenv.config()
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.email, // your email address to send email from
-    pass: process.env.password // your gmail account password
-  }
-});
+// var transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: process.env.email, // your email address to send email from
+//     pass: process.env.password // your gmail account password
+//   }
+// });
 
-module.exports = transporter;
+// module.exports = transporter;

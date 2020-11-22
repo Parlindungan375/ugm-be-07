@@ -9,7 +9,7 @@ import CommentController from './controllers/CommentHandlerController'
 const routes = Router()
 
 // Complaint Controller
-routes.post('/mail', ComplainController.sendEmail)
+// routes.post('/mail', ComplainController.sendEmail)
 routes.get('/ticket', ComplainController.getComplainTicket)
 routes.get('/rand', ComplainController.getRandTicket)
 
