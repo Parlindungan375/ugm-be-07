@@ -3,6 +3,8 @@ import express from 'express'
 import routes from './routes'
 import cors from 'cors'
 
+const cool = require('cool-ascii-faces');
+
 const app = express();
 
 app.use(cors())
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(express.static(buildPath));
 
 app.use('/admin', routes)
+app.get('/cool', (req, res) => res.send(cool()))
 
 app.listen(3030, () => {
   console.log('server start on port 3030');
