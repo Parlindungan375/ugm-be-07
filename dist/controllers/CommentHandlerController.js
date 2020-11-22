@@ -45,17 +45,20 @@ var db = require('.././config/db_config');
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var addComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var datetime, sql, values;
+    var datetime, complaint_id, sql, values;
     return __generator(this, function (_a) {
         datetime = new Date();
+        complaint_id = req.body.complaint_id;
         try {
             sql = "INSERT INTO complaint_comment(complaint_id, cs_id, content, created_at) VALUES ?";
             values = [
-                [req.body.complaint_id, req.body.cs_id, req.body.content, datetime]
+                [complaint_id, req.body.cs_id, req.body.content, datetime]
             ];
             db.query(sql, [values], function (err, result) {
                 if (err)
                     throw err;
+                var status = "1";
+                changeComplaintStatus(status, complaint_id);
                 res.json({
                     status: "success",
                     message: "Number of records inserted: " + result.affectedRows
@@ -95,9 +98,44 @@ var updateComment = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 // menampilkan seluruh comment dari suatu complaint/ ticket
-var showCommentByComplaint = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+// const showCommentByComplaint = async (req,res,next) => {
+//     try {
+//         let sql = ` SELECT ticket.content as comment_text, 
+//                     ticket.created_at as date, 
+//                     cs.name, 
+//                     comp.id, 
+//                     comp.subject as subject, 
+//                     comp.content as complaint_text,
+//                     comp.created_at as comp_date,
+//                     comp.completed_at as replied_date,
+//                     stat.name 
+//                     FROM complaint_comment as ticket
+//                     INNER JOIN complaint 
+//                     `
+//     }
+// }
+// change complaint status
+var changeComplaintStatus = function (status, complaint_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var datetime, sql, data;
     return __generator(this, function (_a) {
+        datetime = new Date();
+        try {
+            sql = " UPDATE complaint\n                    SET status_code = ?, completed_at = ?\n                    WHERE id = ? \n                  ";
+            data = [
+                status,
+                datetime,
+                complaint_id
+            ];
+            db.query(sql, data, function (err, result) {
+                if (err)
+                    throw err;
+                console.log("status change");
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
         return [2 /*return*/];
     });
 }); };
-exports.default = { addComment: addComment, updateComment: updateComment, showCommentByComplaint: showCommentByComplaint };
+exports.default = { addComment: addComment, updateComment: updateComment };
