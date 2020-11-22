@@ -73,10 +73,12 @@ const getAll = async (req,res,next) => {
 } 
 
 const addCs = async (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    
     try {
-        let sql = "INSERT INTO customer_service(real_name, status, fake_name, real_photo, fake_photo) VALUES ?"
+        let sql = "INSERT INTO customer_service(real_name, fake_name, password) VALUES ?"
         var values = [
-            [req.body.real_name, req.body.status, req.body.fake_name, req.body.real_photo, req.body.fake_photo]
+            [req.body.realname, req.body.fakename, req.body.password]
         ]
         db.query(sql, [values], function (err, result) {
             if(err) throw err
@@ -138,18 +140,18 @@ const updateCs = async (req, res, next) => {
     }
 }
 
-const deleteCs = async (req, res, next) => {
-    try {
-        let sql = `DELETE FROM customers WHERE id=1`;
+// const deleteCs = async (req, res, next) => {
+//     try {
+//         let sql = `DELETE FROM customers WHERE id=1`;
 
-        db.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
-        });
-    }catch(err) {
-        throw err
-    }
-}
+//         db.query(sql, function (err) {
+//             if (err) throw err;
+//             console.log("Number of records inserted: " + result.affectedRows);
+//         });
+//     }catch(err) {
+//         throw err
+//     }
+// }
 
 
-export default {getAll, addCs, updateCs, deleteCs, dissableCs, addCustomer}
+export default {getAll, addCs, updateCs, dissableCs, addCustomer}

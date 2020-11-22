@@ -61,13 +61,7 @@ const getComplainTicket = async (req, res, next) => {
   }
 }
 
-const addComment = async (req, res, next) => {
-  try{
 
-  }catch(err){
-
-  }
-}
 
 const changeStatus = async (req, res, next) => {
   try{
@@ -116,4 +110,4 @@ try {
   }
 }
 
-export default {sendEmail, addComment, changeStatus, getComplainTicket, getRandTicket, historyTicket}
+export default {sendEmail, changeStatus, getComplainTicket, getRandTicket, historyTicket}

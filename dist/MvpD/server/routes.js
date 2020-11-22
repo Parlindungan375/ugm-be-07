@@ -19,7 +19,7 @@ routes.put('/update_comment', CommentHandlerController_1.default.updateComment);
 routes.get('/cs', CustomerServiceController_1.default.getAll);
 routes.post('/add', CustomerServiceController_1.default.addCs);
 routes.put('/update', CustomerServiceController_1.default.updateCs);
-// routes.post('/delete', CSController.deleteCs)
+routes.post('/delete', CustomerServiceController_1.default.deleteCs);
 routes.put('/disable', CustomerServiceController_1.default.dissableCs);
 // add customer
 routes.post('add/customer', CustomerServiceController_1.default.addCustomer);

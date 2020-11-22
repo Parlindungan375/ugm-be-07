@@ -122,11 +122,10 @@ var getAll = function (req, res, next) { return __awaiter(void 0, void 0, void 0
 var addCs = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var sql, values;
     return __generator(this, function (_a) {
-        res.header("Access-Control-Allow-Origin", "*");
         try {
-            sql = "INSERT INTO customer_service(real_name, fake_name, password) VALUES ?";
+            sql = "INSERT INTO customer_service(real_name, status, fake_name, real_photo, fake_photo) VALUES ?";
             values = [
-                [req.body.realname, req.body.fakename, req.body.password]
+                [req.body.real_name, req.body.status, req.body.fake_name, req.body.real_photo, req.body.fake_photo]
             ];
             db.query(sql, [values], function (err, result) {
                 if (err)
@@ -197,15 +196,21 @@ var updateCs = function (req, res, next) { return __awaiter(void 0, void 0, void
         return [2 /*return*/];
     });
 }); };
-// const deleteCs = async (req, res, next) => {
-//     try {
-//         let sql = `DELETE FROM customers WHERE id=1`;
-//         db.query(sql, function (err) {
-//             if (err) throw err;
-//             console.log("Number of records inserted: " + result.affectedRows);
-//         });
-//     }catch(err) {
-//         throw err
-//     }
-// }
-exports.default = { getAll: getAll, addCs: addCs, updateCs: updateCs, dissableCs: dissableCs, addCustomer: addCustomer };
+var deleteCs = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var sql;
+    return __generator(this, function (_a) {
+        try {
+            sql = "DELETE FROM customers WHERE id=1";
+            db.query(sql, function (err, result) {
+                if (err)
+                    throw err;
+                console.log("Number of records inserted: " + result.affectedRows);
+            });
+        }
+        catch (err) {
+            throw err;
+        }
+        return [2 /*return*/];
+    });
+}); };
+exports.default = { getAll: getAll, addCs: addCs, updateCs: updateCs, deleteCs: deleteCs, dissableCs: dissableCs, addCustomer: addCustomer };
