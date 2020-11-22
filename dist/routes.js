@@ -9,7 +9,7 @@ var CustomerServiceController_1 = __importDefault(require("./controllers/Custome
 var CommentHandlerController_1 = __importDefault(require("./controllers/CommentHandlerController"));
 var routes = express_1.Router();
 // Complaint Controller
-routes.post('/mail', ComplainHandlerController_1.default.sendEmail);
+// routes.post('/mail', ComplainController.sendEmail)
 routes.get('/ticket', ComplainHandlerController_1.default.getComplainTicket);
 routes.get('/rand', ComplainHandlerController_1.default.getRandTicket);
 // Comment Controller

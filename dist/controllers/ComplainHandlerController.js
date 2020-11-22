@@ -112,38 +112,41 @@ var changeStatus = function (req, res, next) { return __awaiter(void 0, void 0, 
         return [2 /*return*/];
     });
 }); };
-var sendEmail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var mailOptions;
-    return __generator(this, function (_a) {
-        try {
-            mailOptions = {
-                from: process.env.email,
-                to: req.body.email,
-                subject: req.body.subject,
-                html: "\n      <p>You have a new contact request.</p>\n      <h3>Contact Details</h3>\n      <ul>\n        <li>Name: " + req.body.name + "</li>\n        <li>Email: " + req.body.email + "</li>\n        <li>Subject: " + req.body.subject + "</li>\n        <li>Message: " + req.body.message + "</li>\n      </ul>\n      "
-            };
-            transporter.sendMail(mailOptions, function (err, info) {
-                if (err) {
-                    res.status(500).send({
-                        success: false,
-                        message: 'Something went wrong. Try again later'
-                    });
-                }
-                else {
-                    res.send({
-                        success: true,
-                        message: 'Thanks for contacting us. We will get back to you shortly'
-                    });
-                }
-            });
-        }
-        catch (error) {
-            res.status(500).send({
-                success: false,
-                message: 'Something went wrong. Try again later'
-            });
-        }
-        return [2 /*return*/];
-    });
-}); };
-exports.default = { sendEmail: sendEmail, changeStatus: changeStatus, getComplainTicket: getComplainTicket, getRandTicket: getRandTicket, historyTicket: historyTicket };
+// const sendEmail = async (req, res, next) => {
+// try {
+//     const mailOptions = {
+//       from: process.env.email, // sender address
+//       to: req.body.email, // list of receivers
+//       subject: req.body.subject, // Subject line
+//       html: `
+//       <p>You have a new contact request.</p>
+//       <h3>Contact Details</h3>
+//       <ul>
+//         <li>Name: ${req.body.name}</li>
+//         <li>Email: ${req.body.email}</li>
+//         <li>Subject: ${req.body.subject}</li>
+//         <li>Message: ${req.body.message}</li>
+//       </ul>
+//       `
+//     };
+//     transporter.sendMail(mailOptions, function (err, info) {
+//       if (err) {
+//         res.status(500).send({
+//           success: false,
+//           message: 'Something went wrong. Try again later'
+//         });
+//       } else {
+//         res.send({
+//           success: true,
+//           message: 'Thanks for contacting us. We will get back to you shortly'
+//         });
+//       }
+//     });
+//   } catch (error) {
+//     res.status(500).send({
+//       success: false,
+//       message: 'Something went wrong. Try again later'
+//     });
+//   }
+// }
+exports.default = { changeStatus: changeStatus, getComplainTicket: getComplainTicket, getRandTicket: getRandTicket, historyTicket: historyTicket };
