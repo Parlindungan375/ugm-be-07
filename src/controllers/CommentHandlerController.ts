@@ -53,43 +53,56 @@ const updateComment = async (req, res, next) => {
     }
 }
 // menampilkan seluruh comment dari suatu complaint/ ticket
-// const showCommentByComplaint = async (req,res,next) => {
-//     try {
-//         let sql = ` SELECT ticket.content as comment_text, 
-//                     ticket.created_at as date, 
-//                     cs.name, 
-//                     comp.id, 
-//                     comp.subject as subject, 
-//                     comp.content as complaint_text,
-//                     comp.created_at as comp_date,
-//                     comp.completed_at as replied_date,
-//                     stat.name 
-//                     FROM complaint_comment as ticket
-//                     INNER JOIN complaint 
-//                     `
-//     }
-// }
+const showCommentByComplaint = async (req,res,next) => {
+    try {
+        let sql = ` SELECT ticket.content AS comment_text, 
+                    ticket.created_at AS DATE, 
+                    cs.fake_name, 
+                    comp.id, 
+                    comp.subject AS SUBJECT, 
+                    comp.content AS complaint_text,
+                    comp.created_at AS comp_date,
+                    comp.completed_at AS replied_date,
+                    stat.name 
+                    FROM complaint_comment AS ticket
+                    INNER JOIN complaint AS comp ON comp.id = ticket.complaint_id
+                    INNER JOIN customer_service AS cs ON cs.id = ticket.cs_id
+                    INNER JOIN complaint_status AS stat ON stat.code = comp.status_code
+                `
+        db.query(sql,  function (err, result) {
+            if (err) throw err;    
+            res.json({
+                status: "success",
+                data: result
+            })
+        });
+        
+    } catch(err) {
+        console.log(err)
+    }
+}
 
 // change complaint status
-const changeComplaintStatus = async (status,complaint_id) => {
+function changeComplaintStatus(status, complaint_id) {
     var datetime = new Date();
     try {
         let sql = ` UPDATE complaint
                     SET status_code = ?, completed_at = ?
                     WHERE id = ? 
                   `;
-        let data = [ 
+        let data = [
             status,
             datetime,
             complaint_id
-        ]  
-        db.query(sql, data,  function (err, result) {
-            if (err) throw err;    
-            console.log("status change")
-        });            
-    } catch(err){
-        console.log(err)        
+        ];
+        db.query(sql, data, function (err, result) {
+            if (err)
+                throw err;
+            console.log("status change");
+        });
+    } catch (err) {
+        console.log(err);
     }
 }
 
-export default {addComment, updateComment}
+export default {addComment, updateComment, showCommentByComplaint}

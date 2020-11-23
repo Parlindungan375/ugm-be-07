@@ -15,6 +15,7 @@ routes.get('/rand', ComplainHandlerController_1.default.getRandTicket);
 // Comment Controller
 routes.post('/comment', CommentHandlerController_1.default.addComment);
 routes.put('/update_comment', CommentHandlerController_1.default.updateComment);
+routes.post('/history', ComplainHandlerController_1.default.historyTicket);
 // CS Controller
 routes.get('/cs', CustomerServiceController_1.default.getAll);
 routes.post('/add', CustomerServiceController_1.default.addCs);

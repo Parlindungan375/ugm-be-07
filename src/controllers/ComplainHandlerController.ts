@@ -17,7 +17,33 @@ dotenv.config();
 // });
 
 const historyTicket = async (req, res, next) => {
-
+  try {
+    let sql = ` SELECT ticket.content AS comment_text, 
+                    ticket.created_at AS DATE, 
+                    cs.fake_name, 
+                    comp.id, 
+                    comp.subject AS SUBJECT, 
+                    comp.content AS complaint_text,
+                    comp.created_at AS comp_date,
+                    comp.completed_at AS replied_date,
+                    stat.name,
+                    cat.name 
+                    FROM complaint AS comp
+                    LEFT JOIN complaint_comment AS ticket ON comp.id = ticket.complaint_id
+                    LEFT JOIN customer_service AS cs ON cs.id = ticket.cs_id
+                    LEFT JOIN complaint_status AS stat ON stat.code = comp.status_code
+                    LEFT JOIN complaint_categories as cat ON cat.id = comp.cat_id
+                `
+        db.query(sql,  function (err, result) {
+            if (err) throw err;    
+            res.json({
+                status: "success",
+                data: result
+            })
+        });
+  } catch(err){
+    res.status(500).json( {error : err} )
+  }
 }
 // Mendapatkan semua complaint yang belum ditanggapi
 const getRandTicket = async (req, res, next) => {
@@ -62,15 +88,6 @@ const getComplainTicket = async (req, res, next) => {
 }
 
 
-
-const changeStatus = async (req, res, next) => {
-  try{
-
-  }catch(err){
-
-  }
-}
-
 // const sendEmail = async (req, res, next) => {
 // try {
 //     const mailOptions = {
@@ -110,4 +127,4 @@ const changeStatus = async (req, res, next) => {
 //   }
 // }
 
-export default {changeStatus, getComplainTicket, getRandTicket, historyTicket}
+export default {getComplainTicket, getRandTicket, historyTicket}

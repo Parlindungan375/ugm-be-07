@@ -16,6 +16,7 @@ routes.get('/rand', ComplainController.getRandTicket)
 // Comment Controller
 routes.post('/comment', CommentController.addComment)
 routes.put('/update_comment', CommentController.updateComment)
+routes.post('/history', ComplainController.historyTicket)
 
 // CS Controller
 routes.get('/cs', CSController.getAll)

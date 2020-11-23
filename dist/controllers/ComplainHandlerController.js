@@ -53,7 +53,22 @@ dotenv_1.default.config();
 //   });
 // });
 var historyTicket = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var sql;
     return __generator(this, function (_a) {
+        try {
+            sql = " SELECT ticket.content AS comment_text, \n                    ticket.created_at AS DATE, \n                    cs.fake_name, \n                    comp.id, \n                    comp.subject AS SUBJECT, \n                    comp.content AS complaint_text,\n                    comp.created_at AS comp_date,\n                    comp.completed_at AS replied_date,\n                    stat.name,\n                    cat.name \n                    FROM complaint AS comp\n                    LEFT JOIN complaint_comment AS ticket ON comp.id = ticket.complaint_id\n                    LEFT JOIN customer_service AS cs ON cs.id = ticket.cs_id\n                    LEFT JOIN complaint_status AS stat ON stat.code = comp.status_code\n                    LEFT JOIN complaint_categories as cat ON cat.id = comp.cat_id\n                ";
+            db.query(sql, function (err, result) {
+                if (err)
+                    throw err;
+                res.json({
+                    status: "success",
+                    data: result
+                });
+            });
+        }
+        catch (err) {
+            res.status(500).json({ error: err });
+        }
         return [2 /*return*/];
     });
 }); };
@@ -103,15 +118,6 @@ var getComplainTicket = function (req, res, next) { return __awaiter(void 0, voi
         return [2 /*return*/];
     });
 }); };
-var changeStatus = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        try {
-        }
-        catch (err) {
-        }
-        return [2 /*return*/];
-    });
-}); };
 // const sendEmail = async (req, res, next) => {
 // try {
 //     const mailOptions = {
@@ -149,4 +155,4 @@ var changeStatus = function (req, res, next) { return __awaiter(void 0, void 0, 
 //     });
 //   }
 // }
-exports.default = { changeStatus: changeStatus, getComplainTicket: getComplainTicket, getRandTicket: getRandTicket, historyTicket: historyTicket };
+exports.default = { getComplainTicket: getComplainTicket, getRandTicket: getRandTicket, historyTicket: historyTicket };

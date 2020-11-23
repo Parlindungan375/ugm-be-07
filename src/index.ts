@@ -2,10 +2,12 @@ import path from 'path'
 import express from 'express'
 import routes from './routes'
 import cors from 'cors'
+import ngrok from 'ngrok'
 
 const cool = require('cool-ascii-faces');
 
 const app = express();
+
 
 app.use(cors())
 app.use(function(req, res, next) {
@@ -20,6 +22,23 @@ app.use(express.static(buildPath));
 app.use('/admin', routes)
 app.get('/cool', (req, res) => res.send(cool()))
 
-app.listen(3030, () => {
-  console.log('server start on port 3030');
+app.listen(process.env.PORT, () => {
+  console.log('server start on port ', process.env.PORT);
 });
+
+ngrok
+  .connect({
+    proto : 'http',
+    addr : process.env.PORT,
+  })
+  .then(url => {
+   console.log(`💳  App URL to see the demo in your browser: ${url}/`);
+  })
+  .catch(err => {
+   if (err.code === 'ECONNREFUSED') {
+    console.log(`⚠️  Connection refused at ${err.address}:${err.port}`);
+   } else {
+    console.log(`⚠️ Ngrok error: ${JSON.stringify(err)}`);
+   }
+   process.exit(1);
+  });

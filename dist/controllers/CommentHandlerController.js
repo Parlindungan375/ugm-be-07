@@ -98,38 +98,18 @@ var updateComment = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 // menampilkan seluruh comment dari suatu complaint/ ticket
-// const showCommentByComplaint = async (req,res,next) => {
-//     try {
-//         let sql = ` SELECT ticket.content as comment_text, 
-//                     ticket.created_at as date, 
-//                     cs.name, 
-//                     comp.id, 
-//                     comp.subject as subject, 
-//                     comp.content as complaint_text,
-//                     comp.created_at as comp_date,
-//                     comp.completed_at as replied_date,
-//                     stat.name 
-//                     FROM complaint_comment as ticket
-//                     INNER JOIN complaint 
-//                     `
-//     }
-// }
-// change complaint status
-var changeComplaintStatus = function (status, complaint_id) { return __awaiter(void 0, void 0, void 0, function () {
-    var datetime, sql, data;
+var showCommentByComplaint = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var sql;
     return __generator(this, function (_a) {
-        datetime = new Date();
         try {
-            sql = " UPDATE complaint\n                    SET status_code = ?, completed_at = ?\n                    WHERE id = ? \n                  ";
-            data = [
-                status,
-                datetime,
-                complaint_id
-            ];
-            db.query(sql, data, function (err, result) {
+            sql = " SELECT ticket.content AS comment_text, \n                    ticket.created_at AS DATE, \n                    cs.fake_name, \n                    comp.id, \n                    comp.subject AS SUBJECT, \n                    comp.content AS complaint_text,\n                    comp.created_at AS comp_date,\n                    comp.completed_at AS replied_date,\n                    stat.name \n                    FROM complaint_comment AS ticket\n                    INNER JOIN complaint AS comp ON comp.id = ticket.complaint_id\n                    INNER JOIN customer_service AS cs ON cs.id = ticket.cs_id\n                    INNER JOIN complaint_status AS stat ON stat.code = comp.status_code\n                ";
+            db.query(sql, function (err, result) {
                 if (err)
                     throw err;
-                console.log("status change");
+                res.json({
+                    status: "success",
+                    data: result
+                });
             });
         }
         catch (err) {
@@ -138,4 +118,24 @@ var changeComplaintStatus = function (status, complaint_id) { return __awaiter(v
         return [2 /*return*/];
     });
 }); };
-exports.default = { addComment: addComment, updateComment: updateComment };
+// change complaint status
+function changeComplaintStatus(status, complaint_id) {
+    var datetime = new Date();
+    try {
+        var sql = " UPDATE complaint\n                    SET status_code = ?, completed_at = ?\n                    WHERE id = ? \n                  ";
+        var data = [
+            status,
+            datetime,
+            complaint_id
+        ];
+        db.query(sql, data, function (err, result) {
+            if (err)
+                throw err;
+            console.log("status change");
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+exports.default = { addComment: addComment, updateComment: updateComment, showCommentByComplaint: showCommentByComplaint };
