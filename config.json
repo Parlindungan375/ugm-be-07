@@ -1,0 +1,19 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "parlin145",
+        "database": "complaint_handling"
+    },
+    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS",
+    "emailFrom": "helpdesk@bri.com",
+    "smtpOptions": {
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "auth": {
+            "user": "sammie.rempel41@ethereal.email",
+            "pass": "z3aZNprjd2c4Qh81aC"
+        }
+    }
+}
